@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imobs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.css"
+        integrity="sha512-YM6sLXVMZqkCspZoZeIPGXrhD9wxlxEF7MzniuvegURqrTGV2xTfqq1v9FJnczH+5OGFl5V78RgHZGaK34ylVg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(#080808, #262626);
+        }
+
+        #form {
+            width: 95%;
+            margin: 3rem;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @media(max-width: 767px){
+            #form {
+                flex-direction: column;
+                margin: 3rem 0
+            }
+        }
+
+        #form>div {
+            margin-right: 32px;
+            width: 300px;
+        }
+
+        #form button {
+            background-color: rgba(0,0,0,.5);
+            border: none;
+            padding: 16px 32px;
+            box-sizing: border-box;
+            color: white;
+            border-radius: 3px;
+            margin-bottom: -6px;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 4px 6px;
+            box-sizing: border-box;
+        }
+
+        .imobiliaria-wrapper {
+            width: 95%;
+            margin: 2rem auto;
+            margin-bottom: 64px;
+        }
+
+        .imobiliaria-title {
+            padding: 0 1rem;
+            color: #fff;
+        }
+
+        .imovel {
+            display: block;
+            width: 250px;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0 1rem;
+            align-items: center;
+
+            color: #fff !important;
+            text-decoration: none !important;
+            transform: scale(.95);
+            transition: all .5s;
+
+            min-width: 250px;
+        }
+
+        .imovel:hover {
+            transform: scale(1);
+        }
+
+        .pic {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px 8px 0 0;
+            opacity: .8;
+        }
+
+        .info {
+            width: 100%;
+            text-align: center;
+            margin: 8px 0;
+            padding: 16px 0;
+            background-color: rgba(0, 0, 0, .25);
+            border-radius: 0 0 16px 16px;
+        }
+
+        .value {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .nbhd {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form">
+        <div>
+            <div class="form-group">
+                <label for="city">Cidade</label>
+                <input type="text" id="city" value="Guaratinguetá">
+            </div>
+            <div class="form-group">
+                <label for="dorms">Quartos</label>
+                <input type="text" id="dorms" value="3">
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="minprice">Valor mínimo</label>
+                <input type="text" id="minprice" value="1500">
+            </div>
+            <div class="form-group">
+                <label for="maxprice">Valor máximo</label>
+                <input type="text" id="maxprice" value="2000">
+            </div>
+        </div>
+
+        <div>
+            <div class="form-group">
+                <button onclick="loadImobiliarias()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">Rony</h1>
+
+        <div class="imobiliaria glider" id="rony"></div>
+    </div>
+
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">Wanor França</h1>
+
+        <div class="imobiliaria glider" id="wanor"></div>
+    </div> 
+    
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">3A</h1>
+
+        <div class="imobiliaria glider" id="i3a"></div>
+    </div>
+    
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">Ferri Loriggio</h1>
+
+        <div class="imobiliaria glider" id="ferri"></div>
+    </div>
+    
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">Oliveira Alves</h1>
+
+        <div class="imobiliaria glider" id="oliveira"></div>
+    </div>
+    
+    <div class="imobiliaria-wrapper">
+        <h1 class="imobiliaria-title">Habit</h1>
+
+        <div class="imobiliaria glider" id="habit"></div>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.js"
+    integrity="sha512-AZURF+lGBgrV0WM7dsCFwaQEltUV5964wxMv+TSzbb6G1/Poa9sFxaCed8l8CcFRTiP7FsCgCyOm/kf1LARyxA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+    const real = Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
+    window.onload = () => {
+        loadImobiliarias();
+
+        const gliders = document.querySelectorAll('.glider');
+        Array.from(gliders).forEach(glider => {
+            new Glider(glider, {
+                slidesToShow: 5,
+                slidesToScroll: 5,
+                draggable: true,
+                dots: '.dots',
+                arrows: {
+                    prev: '.glider-prev',
+                    next: '.glider-next'
+                }
+            });
+        })
+    }
+
+    const loadImobiliarias = () => {
+        const imoveis = document.querySelectorAll('.imovel');
+        Array.from(imoveis).forEach(imovel => {
+            imovel.remove()
+        })
+
+        const city = document.getElementById('city').value;
+        const dorms = document.getElementById('dorms').value;
+        const minprice = document.getElementById('minprice').value;
+        const maxprice = document.getElementById('maxprice').value;
+
+        loadRony(city, dorms, minprice, maxprice);
+        loadWanor(city, dorms, minprice, maxprice);
+        load3A(city, dorms, minprice, maxprice);
+        loadFerri(city, dorms, minprice, maxprice);
+        loadOliveira(city, dorms, minprice, maxprice);
+        loadHabit(city, dorms, minprice, maxprice);
+    }
+
+    const loadRony = (_city, _dorms, _minprice, _maxprice) => {
+        const minprice = real.format(_minprice).replace('R$', '').trim();
+        const maxprice = real.format(_maxprice).replace('R$', '').trim();
+        const city = _city.toLowerCase()
+        let cityCode = '';
+
+        if(
+            city == 'guaratinguetá' ||
+            city == 'guaratingueta'
+        ) {
+            cityCode = 4;
+        }
+
+        let formData = new FormData();
+        formData.append('imovel[finalidade]', 'aluguel');
+        formData.append('imovel[codigoTipo][codigo][]', '1');
+        formData.append('imovel[codigoTipo][nome][]', 'casa');
+        formData.append('imovel[codigoCidade]', cityCode);
+        formData.append('imovel[numeroquartos]', _dorms + '-quartos');
+        formData.append('imovel[valorde]', minprice);
+        formData.append('imovel[valorate]', maxprice);
+        formData.append('imovel[numeroregistros]', '999');
+        formData.append('imovel[numeropagina]', '1');
+        formData.append('imovel[pagina]', '1');
+        formData.append('imovel[codigounidade]', '');
+        formData.append('imovel[codigosimoveis]', '');
+        formData.append('imovel[codigoregiao]', '0');
+        formData.append('imovel[codigosbairros][codigo]', '0');
+        formData.append('imovel[endereco]', '');
+        formData.append('imovel[numerovagas]', '0-vaga-ou-mais');
+        formData.append('imovel[numerobanhos]', '0-banheiro-ou-mais');
+        formData.append('imovel[numerosuite]', '0-suite-ou-mais');
+        formData.append('imovel[numerovaranda]', '0');
+        formData.append('imovel[numeroelevador]', '0');
+        formData.append('imovel[areade]', '0');
+        formData.append('imovel[areaate]', '0');
+        formData.append('imovel[extras]', 'true');
+        formData.append('imovel[academia]', 'false');
+        formData.append('imovel[aceitafinanciamento]', 'false');
+        formData.append('imovel[alarme]', 'false');
+        formData.append('imovel[arealazer]', 'false');
+        formData.append('imovel[areaprivativa]', 'false');
+        formData.append('imovel[areaservico]', 'false');
+        formData.append('imovel[boxbanheiro]', 'false');
+        formData.append('imovel[boxDespejo]', 'false');
+        formData.append('imovel[churrasqueira]', 'false');
+        formData.append('imovel[circuitotv]', 'false');
+        formData.append('imovel[closet]', 'false');
+        formData.append('imovel[dce]', 'false');
+        formData.append('imovel[exclusivo]', 'true');
+        formData.append('imovel[interfone]', 'false');
+        formData.append('imovel[jardim]', 'false');
+        formData.append('imovel[lavabo]', 'false');
+        formData.append('imovel[mobiliado]', 'false');
+        formData.append('imovel[naplanta]', 'false');
+        formData.append('imovel[piscina]', 'false');
+        formData.append('imovel[playground]', 'false');
+        formData.append('imovel[portaoeletronico]', 'false');
+        formData.append('imovel[portaria24h]', 'false');
+        formData.append('imovel[quadraesportiva]', 'false');
+        formData.append('imovel[quadratenis]', 'false');
+        formData.append('imovel[salaofestas]', 'false');
+        formData.append('imovel[salaojogos]', 'false');
+        formData.append('imovel[sauna]', 'false');
+        formData.append('imovel[varanda]', 'false');
+        formData.append('imovel[wifi]', 'false');
+        formData.append('imovel[quartoqtdeexata]', 'false');
+        formData.append('imovel[vagaqtdexata]', 'false');
+        formData.append('imovel[datacadastroinicio]', 'false');
+        formData.append('imovel[datacadastrofim]', 'false');
+        formData.append('imovel[dataultimaalteracaoinicio]', 'false');
+        formData.append('imovel[dataultimaalteracaofim]', 'false');
+        formData.append('imovel[destaque]', '0');
+        formData.append('imovel[opcaoimovel]', 'false');
+        formData.append('imovel[retornomapa]', 'false');
+        formData.append('imovel[retornomapaapp]', 'false');
+        formData.append('imovel[ordenacao]', 'valordesc');
+        formData.append('imovel[elevador]', 'false');
+        formData.append('imovel[varandagourmet]', 'false');
+
+        var x = new XMLHttpRequest();
+        x.open('POST', cors_api_url + 'https://www.rony.com.br/imoveis/ajax/');
+        x.onload = x.onerror = function () {
+            const list = JSON.parse(x.responseText).lista;
+            const rony = document.getElementById('rony').querySelector('.glider-track');
+
+            Array.from(list).forEach(imovel => {
+                const item = createItem(
+                    imovel.urlfotoprincipalp,
+                    'https://www.rony.com.br/imoveis/' + imovel.titulo + '/' + imovel.codigo,
+                    imovel.valor,
+                    imovel.bairro
+                )
+
+                rony.append(item);
+            });
+        };
+        x.send(formData);
+    }
+
+    const loadWanor = (_city, _dorms, _minprice, _maxprice) => {
+        var x = new XMLHttpRequest();
+        x.open('GET', cors_api_url + 'https://www.wanorimoveis.com.br/api/listings/para-alugar/casa/'+_city+'?preco-de-locacao='+_minprice+'~'+_maxprice+'&quartos='+_dorms+'+');
+        x.onload = x.onerror = function () {
+            const list = JSON.parse(x.responseText).data
+            const wanor = document.getElementById('wanor').querySelector('.glider-track');
+
+            Array.from(list).forEach(imovel => {
+                const value = real.format(imovel.total_rent);
+
+                const item = createItem(
+                    imovel.picture_thumb,
+                    'https://www.wanorimoveis.com.br' + imovel.url + '?from=rent',
+                    value,
+                    imovel.neighborhood_display
+                )
+
+                wanor.append(item);
+            });
+        };
+        x.send();
+    }
+
+    const load3A = (_city, _dorms, _minprice, _maxprice) => {
+        var x = new XMLHttpRequest();
+        x.open('GET', cors_api_url + 'https://www.imobiliaria3a.com/imoveis/para-alugar/casa/'+_city+'?preco-de-locacao='+_minprice+'~'+_maxprice+'&quartos='+_dorms+'+');
+        x.onload = x.onerror = function () {
+            let response = x.responseText
+            response = response.replaceAll('/assets/img/kenlo.svg', '')
+            const el = document.createElement('div')
+            el.innerHTML = response
+
+            const results = el.querySelectorAll('.card-with-buttons.borderHover');
+
+            const i3a = document.getElementById('i3a').querySelector('.glider-track');
+
+            Array.from(results).forEach(result => {
+                const url = 'https://www.imobiliaria3a.com/' + result.href
+                const pic = result.querySelectorAll('img')[0].src
+                const price = result.querySelector('.card-with-buttons__value').innerHTML.replace('/mês', '')
+                const nbhd = result.querySelector('.card-with-buttons__footer h3').innerHTML.split('-')[0]
+                const item = createItem(pic, url, price, nbhd);
+
+                i3a.append(item)
+            })
+        };
+        x.send();
+    }
+
+    const loadFerri = (city, dorms, minprice, maxprice) => {
+        var x = new XMLHttpRequest();
+        x.open('GET', cors_api_url + 'https://ferriloriggio.com.br/resultado-imoveis-locacao.php?codigo_imovel=&palavraChave=&tipo=&cidade='+city+'&bairro=&qtd_quartos='+dorms+'&qtd_banheiros=&qtd_vagas=&qtd_suites=&area_minima=&area_maxima=&valor_minimo='+minprice+'&valor_maximo='+maxprice);
+        x.onload = x.onerror = function () {
+            let response = x.responseText
+            response = response.replaceAll('images/nao-disponivel.jpg', '')
+            const el = document.createElement('div')
+            el.innerHTML = response
+
+            const results = el.querySelectorAll('.removePedDiv')
+            const ferri = document.getElementById('ferri').querySelector('.glider-track');
+
+            Array.from(results).forEach(result => {
+                const url = 'https://ferriloriggio.com.br/' + result.querySelector('a.imagem').href
+                const pic = result.querySelector('img').src
+                const price = result.querySelector('.corValor').innerHTML.replace('Total: ', '')
+                const nbhd = result.querySelector('div p a').innerHTML.match(/bairro(.*)em/i)[1]
+
+                const item = createItem(pic, url, price, nbhd)
+
+                ferri.append(item)
+            })
+        };
+        x.send();
+    }
+    
+    const loadOliveira = (city, dorms, minprice, maxprice) => {
+        var x = new XMLHttpRequest();
+        x.open('GET', cors_api_url + 'https://imobiliariaoliveiraalves.com/imoveis-locacao.php?codigo_imovel=&negociacao=Aluguel&situacao=&cidade='+city.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")+'&area_minima=&area_maxima=&valor_minimo='+minprice+'&valor_maximo='+maxprice+'&qtd_quartos=' + dorms);
+        x.onload = x.onerror = function () {
+            let response = x.responseText
+            response = response.replaceAll('images/logo/logo-imobiliaria-oliveira-alves.jpg', '');
+            response = response.replaceAll('images/logo/imobiliaria-oliveira-alves.jpg', '');
+            const el = document.createElement('div')
+            el.innerHTML = response
+
+            const results = el.querySelectorAll('.item-wrap')
+            const oliveira = document.getElementById('oliveira').querySelector('.glider-track');
+
+            Array.from(results).forEach(result => {
+                const url = 'https://imobiliariaoliveiraalves.com/' + result.querySelector('.item-thumb a').href
+                let pic = result.querySelector('.item-thumb a').style.backgroundImage.match(/url\("(.*)"\)/i)[1]
+                const price = result.querySelector('.price h3').innerHTML
+                const nbhd = result.querySelector('.property-title a').innerHTML.match(/bairro(.*)em/i)[1]
+
+                const item = createItem(pic, url, price, nbhd)
+
+                oliveira.append(item)
+            })
+        };
+        x.send();
+    }
+    
+    const loadHabit = (city, dorms, minprice, maxprice) => {
+        var x = new XMLHttpRequest();
+        x.open('GET', cors_api_url + 'https://imobiliariahabit.com.br/buscar/casa/para-alugar?preco-minimo='+minprice+'&preco-maximo='+maxprice+'&quartos[]='+dorms+'&ordernar-por=preco-crescente&_=1679592078345');
+        x.onload = x.onerror = function () {
+            const response = JSON.parse(x.responseText).content.properties
+            const el = document.createElement('div')
+            el.innerHTML = response
+
+            const habit = document.getElementById('habit').querySelector('.glider-track');
+
+            const results = el.querySelectorAll('.thumbnail_one');
+
+            Array.from(results).forEach(result => {
+                const url = 'https://imobiliariahabit.com.br/' + result.querySelector('.property-card-link').href
+                let pic = result.querySelector('picture source').srcset
+                const price = result.querySelector('.property_pricing').innerText.replace('/mês', '').trim();
+                const nbhd = result.querySelector('.property_card_address').innerText.trim().split(',')[0]
+
+                const item = createItem(pic, url, price, nbhd)
+
+                habit.append(item)
+            })
+        };
+        x.send();
+    }
+
+    const createItem = (pic, url, value, _nbhd) => {
+        const wrapper = document.createElement('a');
+        wrapper.classList.add('imovel');
+
+        wrapper.setAttribute('href', url);
+        wrapper.setAttribute('target', "_blank");
+
+        const image = document.createElement('img')
+        image.setAttribute('src', pic);
+        image.classList.add('pic');
+
+        const displayValue = document.createElement('div')
+        displayValue.innerHTML = value;
+        displayValue.classList.add('value')
+
+        const nbhd = document.createElement('div');
+        nbhd.innerHTML = _nbhd;
+        nbhd.classList.add('nbhd')
+
+        const info = document.createElement('div');
+        info.classList.add('info');
+
+        info.append(displayValue);
+        info.append(nbhd)
+
+        wrapper.append(image);
+        wrapper.append(info);
+
+        return wrapper;
+    }
+</script>
+
+</html>
