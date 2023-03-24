@@ -405,7 +405,7 @@
             const i3a = document.getElementById('i3a').querySelector('.glider-track');
 
             Array.from(results).forEach(result => {
-                const url = 'https://www.imobiliaria3a.com/' + result.href
+                const url = 'https://www.imobiliaria3a.com' + result.getAttribute('href')
                 const pic = result.querySelectorAll('img')[0].src
                 const price = result.querySelector('.card-with-buttons__value').innerHTML.replace('/mês', '')
                 const nbhd = result.querySelector('.card-with-buttons__footer h3').innerHTML.split('-')[0]
@@ -430,7 +430,7 @@
             const ferri = document.getElementById('ferri').querySelector('.glider-track');
 
             Array.from(results).forEach(result => {
-                const url = 'https://ferriloriggio.com.br/' + result.querySelector('a.imagem').href
+                const url = 'https://ferriloriggio.com.br/' + result.querySelector('a.imagem').getAttribute('href')
                 const pic = result.querySelector('img').src
                 const price = result.querySelector('.corValor').innerHTML.replace('Total: ', '')
                 const nbhd = result.querySelector('div p a').innerHTML.match(/bairro(.*)em/i)[1]
@@ -457,7 +457,7 @@
             const oliveira = document.getElementById('oliveira').querySelector('.glider-track');
 
             Array.from(results).forEach(result => {
-                const url = 'https://imobiliariaoliveiraalves.com/' + result.querySelector('.item-thumb a').href
+                const url = 'https://imobiliariaoliveiraalves.com/' + result.querySelector('.item-thumb a').getAttribute('href')
                 let pic = result.querySelector('.item-thumb a').style.backgroundImage.match(/url\("(.*)"\)/i)[1]
                 const price = result.querySelector('.price h3').innerHTML
                 const nbhd = result.querySelector('.property-title a').innerHTML.match(/bairro(.*)em/i)[1]
@@ -483,7 +483,7 @@
             const results = el.querySelectorAll('.thumbnail_one');
 
             Array.from(results).forEach(result => {
-                const url = 'https://imobiliariahabit.com.br/' + result.querySelector('.property-card-link').href
+                const url = 'https://imobiliariahabit.com.br/' + result.querySelector('.property-card-link').getAttribute('href')
                 let pic = result.querySelector('picture source').srcset
                 const price = result.querySelector('.property_pricing').innerText.replace('/mês', '').trim();
                 const nbhd = result.querySelector('.property_card_address').innerText.trim().split(',')[0]
